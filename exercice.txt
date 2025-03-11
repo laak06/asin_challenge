@@ -1,1 +1,19 @@
+ASIN take-home challenge
+The goal is to build a small application to show off your skills at production quality level code. You can write it in any language (preference for NodeJs or Java) and it should only take one day (we can trust in you🙂).
 
+The Scenario
+A ministry makes available a list of several people who are manually recorded in a xlsx file format. This list must be saved in a relational database in less than 20 minutes so that it can be consulted by a supervisory committee.
+
+Your job is to create a unix-friendly command line application that performs this action.
+
+An example of the file is available on this link. This example will be used for validation of your code
+
+Instructions
+Treat this work as a software engineer professional with a level of quality and testing that you'd be happy to see in production. Think about worse cases, documentation, testing etc.
+
+Your application should be executable (and compilable, if needed) under linux, take input from stdin and output it to stdout.
+
+Delivery
+We would very much prefer this is written in NodeJS or Java. However, we also want you to do your best work, so if you are not comfortable in NodeJS or Java you may use another language.
+
+Please reply to the email you got with your answer. You need to produce the entire source code repository, tests and all tools as one public repositories. Add a screenshot of your best response time for inserting file in database.
