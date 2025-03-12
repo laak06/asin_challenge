@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Performance Results</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .chart-container {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .chart-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -10px;
+    }
+    .chart-col {
+      flex: 1;
+      min-width: 300px;
+      padding: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Database Performance Results</h1>
+    
+    <div class="chart-row">
+      <div class="chart-col">
+        <div class="chart-container">
+          <h2>Connection Time (ms)</h2>
+          <canvas id="connectTimeChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-col">
+        <div class="chart-container">
+          <h2>Save Time (ms)</h2>
+          <canvas id="saveTimeChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chart-row">
+      <div class="chart-col">
+        <div class="chart-container">
+          <h2>Total Time (ms)</h2>
+          <canvas id="totalTimeChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-col">
+        <div class="chart-container">
+          <h2>Records Per Second</h2>
+          <canvas id="recordsPerSecondChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <h2>Summary Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Database Type</th>
+          <th>Record Count</th>
+          <th>Avg Connect Time (ms)</th>
+          <th>Avg Save Time (ms)</th>
+          <th>Avg Total Time (ms)</th>
+          <th>Avg Records/sec</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+          <tr>
+            <td>sqlite</td>
+            <td>100</td>
+            <td>6</td>
+            <td>6</td>
+            <td>13</td>
+            <td>17262</td>
+          </tr>
+        
+          <tr>
+            <td>sqlite</td>
+            <td>1000</td>
+            <td>2</td>
+            <td>47</td>
+            <td>51</td>
+            <td>22061</td>
+          </tr>
+        
+          <tr>
+            <td>sqlite</td>
+            <td>10000</td>
+            <td>2</td>
+            <td>284</td>
+            <td>293</td>
+            <td>35506</td>
+          </tr>
+        
+          <tr>
+            <td>mysql</td>
+            <td>100</td>
+            <td>125</td>
+            <td>167</td>
+            <td>293</td>
+            <td>638</td>
+          </tr>
+        
+          <tr>
+            <td>mysql</td>
+            <td>1000</td>
+            <td>18</td>
+            <td>1458</td>
+            <td>1478</td>
+            <td>691</td>
+          </tr>
+        
+          <tr>
+            <td>mysql</td>
+            <td>10000</td>
+            <td>38</td>
+            <td>13270</td>
+            <td>13321</td>
+            <td>782</td>
+          </tr>
+        
+          <tr>
+            <td>postgres</td>
+            <td>100</td>
+            <td>49</td>
+            <td>126</td>
+            <td>175</td>
+            <td>838</td>
+          </tr>
+        
+          <tr>
+            <td>postgres</td>
+            <td>1000</td>
+            <td>24</td>
+            <td>1688</td>
+            <td>1714</td>
+            <td>661</td>
+          </tr>
+        
+          <tr>
+            <td>postgres</td>
+            <td>10000</td>
+            <td>23</td>
+            <td>11113</td>
+            <td>11148</td>
+            <td>910</td>
+          </tr>
+        
+      </tbody>
+    </table>
+    
+    
+  </div>
+
+  <script>
+    // Chart colors
+    const colors = {
+      sqlite: 'rgba(54, 162, 235, 0.7)',
+      mysql: 'rgba(255, 99, 132, 0.7)',
+      postgres: 'rgba(75, 192, 192, 0.7)'
+    };
+    
+    // Create charts
+    const ctx1 = document.getElementById('connectTimeChart').getContext('2d');
+    const ctx2 = document.getElementById('saveTimeChart').getContext('2d');
+    const ctx3 = document.getElementById('totalTimeChart').getContext('2d');
+    const ctx4 = document.getElementById('recordsPerSecondChart').getContext('2d');
+    
+    // Connection Time Chart
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: [100,1000,10000],
+        datasets: [{"label":"sqlite","backgroundColor":"rgba(54, 162, 235, 0.7)","data":[6.333333333333333,1.6666666666666667,2]},{"label":"mysql","backgroundColor":"rgba(255, 99, 132, 0.7)","data":[125.33333333333333,18.333333333333332,37.666666666666664]},{"label":"postgres","backgroundColor":"rgba(75, 192, 192, 0.7)","data":[49,23.666666666666668,22.666666666666668]}]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Time (ms)'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Record Count'
+            }
+          }
+        }
+      }
+    });
+    
+    // Save Time Chart
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: [100,1000,10000],
+        datasets: [{"label":"sqlite","backgroundColor":"rgba(54, 162, 235, 0.7)","data":[6.333333333333333,47.333333333333336,284]},{"label":"mysql","backgroundColor":"rgba(255, 99, 132, 0.7)","data":[167.33333333333334,1458.3333333333333,13270]},{"label":"postgres","backgroundColor":"rgba(75, 192, 192, 0.7)","data":[125.66666666666667,1688.3333333333333,11112.666666666666]}]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Time (ms)'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Record Count'
+            }
+          }
+        }
+      }
+    });
+    
+    // Total Time Chart
+    new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: [100,1000,10000],
+        datasets: [{"label":"sqlite","backgroundColor":"rgba(54, 162, 235, 0.7)","data":[13.333333333333334,50.666666666666664,293]},{"label":"mysql","backgroundColor":"rgba(255, 99, 132, 0.7)","data":[292.6666666666667,1477.6666666666667,13321.333333333334]},{"label":"postgres","backgroundColor":"rgba(75, 192, 192, 0.7)","data":[174.66666666666666,1714.3333333333333,11147.666666666666]}]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Time (ms)'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Record Count'
+            }
+          }
+        }
+      }
+    });
+    
+    // Records Per Second Chart
+    new Chart(ctx4, {
+      type: 'bar',
+      data: {
+        labels: [100,1000,10000],
+        datasets: [{"label":"sqlite","backgroundColor":"rgba(54, 162, 235, 0.7)","data":[17262,22061.333333333332,35505.666666666664]},{"label":"mysql","backgroundColor":"rgba(255, 99, 132, 0.7)","data":[637.6666666666666,691.3333333333334,782]},{"label":"postgres","backgroundColor":"rgba(75, 192, 192, 0.7)","data":[838,660.6666666666666,910]}]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Records/sec'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Record Count'
+            }
+          }
+        }
+      }
+    });
+    
+    
+  </script>
+</body>
+</html>
+  

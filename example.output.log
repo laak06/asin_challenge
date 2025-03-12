@@ -1,0 +1,43 @@
+{"timestamp":"2025-03-12T01:28:50.427Z","level":"info","message":"Starting Excel to Database import process"}
+{"timestamp":"2025-03-12T01:28:50.434Z","level":"info","message":"Using SQLite database"}
+{"timestamp":"2025-03-12T01:28:50.434Z","level":"info","message":"Using connection ID: default"}
+{"timestamp":"2025-03-12T01:28:50.434Z","level":"info","message":"Processing Excel file: examples/people sample.xlsx"}
+{"timestamp":"2025-03-12T01:28:50.435Z","level":"info","message":"File size: 11.06 MB, using streaming mode"}
+{"timestamp":"2025-03-12T01:28:50.435Z","level":"info","message":"Parsing Excel file: examples/people sample.xlsx"}
+{"timestamp":"2025-03-12T01:28:50.435Z","level":"info","message":"Parsing Excel file using streaming approach: examples/people sample.xlsx"}
+{"timestamp":"2025-03-12T01:28:59.898Z","level":"info","message":"Excel file has 292001 rows, processing in chunks of 100000"}
+{"timestamp":"2025-03-12T01:28:59.899Z","level":"info","message":"Processing rows 1 to 100001"}
+{"timestamp":"2025-03-12T01:29:04.219Z","level":"info","message":"Processing rows 100001 to 200001"}
+{"timestamp":"2025-03-12T01:29:09.485Z","level":"info","message":"Processing rows 200001 to 292001"}
+{"timestamp":"2025-03-12T01:29:18.664Z","level":"info","message":"Successfully parsed 292000 records from Excel file using streaming approach"}
+{"timestamp":"2025-03-12T01:29:18.667Z","level":"info","message":"Creating new sqlite database connection: default"}
+{"timestamp":"2025-03-12T01:29:18.723Z","level":"info","message":"Connected to the SQLite database"}
+{"timestamp":"2025-03-12T01:29:18.766Z","level":"info","message":"Creating people table"}
+{"timestamp":"2025-03-12T01:29:18.770Z","level":"info","message":"SQLite database initialized successfully"}
+{"timestamp":"2025-03-12T01:29:18.770Z","level":"info","message":"Processing 292000 records in chunks of 100000"}
+{"timestamp":"2025-03-12T01:29:18.771Z","level":"info","message":"Processing chunk 1 of 3 (100000 records)"}
+{"timestamp":"2025-03-12T01:29:18.915Z","level":"info","message":"Preparing to save 100000 records to SQLite database"}
+{"timestamp":"2025-03-12T01:29:21.356Z","level":"info","message":"Successfully saved 100000 records to SQLite database (0 errors)"}
+{"timestamp":"2025-03-12T01:29:21.356Z","level":"info","message":"Chunk processed: 100000 inserted, 0 errors"}
+{"timestamp":"2025-03-12T01:29:21.357Z","level":"info","message":"Processing chunk 2 of 3 (100000 records)"}
+{"timestamp":"2025-03-12T01:29:21.464Z","level":"info","message":"Preparing to save 100000 records to SQLite database"}
+{"timestamp":"2025-03-12T01:29:24.566Z","level":"info","message":"Successfully saved 100000 records to SQLite database (0 errors)"}
+{"timestamp":"2025-03-12T01:29:24.567Z","level":"info","message":"Chunk processed: 100000 inserted, 0 errors"}
+{"timestamp":"2025-03-12T01:29:24.568Z","level":"info","message":"Processing chunk 3 of 3 (92000 records)"}
+{"timestamp":"2025-03-12T01:29:24.705Z","level":"info","message":"Preparing to save 92000 records to SQLite database"}
+{"timestamp":"2025-03-12T01:29:26.974Z","level":"info","message":"Successfully saved 92000 records to SQLite database (0 errors)"}
+{"timestamp":"2025-03-12T01:29:26.975Z","level":"info","message":"Chunk processed: 92000 inserted, 0 errors"}
+{"timestamp":"2025-03-12T01:29:26.982Z","level":"info","message":"SQLite database connection closed"}
+{"timestamp":"2025-03-12T01:29:26.983Z","level":"info","message":"Closed database connection: default"}
+{"timestamp":"2025-03-12T01:29:26.983Z","level":"info","message":"Successfully saved 292000 records to the database (0 errors)"}
+{
+  "success": true,
+  "message": "Successfully imported 292000 records into the database",
+  "duration": "36.55 seconds",
+  "records": 292000,
+  "connectionId": "default",
+  "databaseType": "sqlite",
+  "sourceFile": "examples/people sample.xlsx"
+}
+{"timestamp":"2025-03-12T01:29:26.983Z","level":"info","message":"Import completed in 36.55 seconds"}
+node src/index.js examples/people\ sample.xlsx  40.89s user 6.22s system 125% cpu 37.580 total
